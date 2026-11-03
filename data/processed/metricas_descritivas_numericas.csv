@@ -1,0 +1,10 @@
+Variavel,Contagem,Media,Mediana,Desvio_Padrao,Minimo,Q1_25,Q3_75,Maximo
+Pre_Semester_GPA,50000,3.15,3.21,0.48,1.18,2.83,3.52,4.0
+Post_Semester_GPA,50000,3.35,3.42,0.5,1.0,3.02,3.75,4.0
+GPA_Variation,50000,0.2,0.2,0.19,-0.92,0.09,0.33,1.01
+Weekly_GenAI_Hours,50000,8.43,5.8,8.27,0.0,2.39,11.72,40.0
+Traditional_Study_Hours,50000,11.21,11.18,5.16,1.0,7.56,14.71,35.86
+Perceived_AI_Dependency,50000,3.51,3.0,1.82,1.0,2.0,5.0,10.0
+Anxiety_Level_During_Exams,50000,4.27,4.0,2.14,1.0,3.0,6.0,10.0
+Skill_Retention_Score,50000,75.8,76.0,13.28,10.78,66.82,85.19,100.0
+Tool_Diversity,50000,2.8,3.0,1.19,1.0,2.0,4.0,5.0
