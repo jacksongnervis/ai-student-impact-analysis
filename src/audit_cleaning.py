@@ -1,9 +1,26 @@
-"""Auditoria de integridade, conversão de tipos e engenharia de atributos."""
+"""Auditoria de integridade, codificação de categorias e engenharia de atributos."""
 
 from __future__ import annotations
 
 from typing import Any, Dict
 import pandas as pd
+
+# Ordem lógica das variáveis categóricas ordinais (da menor para a maior)
+ORDEM_CATEGORIAS = {
+    "Year_of_Study": ["Freshman", "Sophomore", "Junior", "Senior", "Graduate"],
+    "Prompt_Engineering_Skill": ["Beginner", "Intermediate", "Advanced"],
+    "Burnout_Risk_Level": ["Low", "Medium", "High"],
+}
+
+# Faixas de horas semanais de uso de IA: (rótulo, início inclusivo, fim exclusivo)
+FAIXAS_HORAS_IA = [
+    ("0-2 h", 0, 2),
+    ("2-5 h", 2, 5),
+    ("5-10 h", 5, 10),
+    ("10-20 h", 10, 20),
+    ("20+ h", 20, 41),
+]
+ORDEM_FAIXAS = [rotulo for rotulo, _, _ in FAIXAS_HORAS_IA]
 
 
 def auditar_integridade(df: pd.DataFrame) -> Dict[str, Any]:
@@ -19,6 +36,8 @@ def auditar_integridade(df: pd.DataFrame) -> Dict[str, Any]:
         "AI_Dependency [1, 10]": bool(df["Perceived_AI_Dependency"].between(1, 10).all()),
         "Weekly_GenAI_Hours >= 0": bool((df["Weekly_GenAI_Hours"] >= 0).all()),
         "Traditional_Study_Hours >= 0": bool((df["Traditional_Study_Hours"] >= 0).all()),
+        "Skill_Retention_Score [0, 100]": bool(df["Skill_Retention_Score"].between(0, 100).all()),
+        "Tool_Diversity [1, 5]": bool(df["Tool_Diversity"].between(1, 5).all()),
     }
 
     print("\n--- Auditoria de Integridade ---")
@@ -40,27 +59,20 @@ def auditar_integridade(df: pd.DataFrame) -> Dict[str, Any]:
 
 
 def preparar_dados(df: pd.DataFrame) -> pd.DataFrame:
-    """Aplica tipagem categórica (ordinal e nominal) e deriva GPA_Variation."""
+    """Cria codificação ordinal das categorias, faixas de horas de IA e GPA_Variation."""
     df_proc = df.copy()
 
-    df_proc["Year_of_Study"] = pd.Categorical(
-        df_proc["Year_of_Study"],
-        categories=["Freshman", "Sophomore", "Junior", "Senior", "Graduate"],
-        ordered=True,
-    )
-    df_proc["Prompt_Engineering_Skill"] = pd.Categorical(
-        df_proc["Prompt_Engineering_Skill"],
-        categories=["Beginner", "Intermediate", "Advanced"],
-        ordered=True,
-    )
-    df_proc["Burnout_Risk_Level"] = pd.Categorical(
-        df_proc["Burnout_Risk_Level"],
-        categories=["Low", "Medium", "High"],
-        ordered=True,
-    )
+    # Codificação ordinal: cada categoria recebe sua posição na ordem lógica (0, 1, 2, ...)
+    for col, ordem in ORDEM_CATEGORIAS.items():
+        df_proc[col + "_Ord"] = 0
+        for posicao, categoria in enumerate(ordem):
+            df_proc.loc[df_proc[col] == categoria, col + "_Ord"] = posicao
 
-    for col in ["Major_Category", "Primary_Use_Case", "Institutional_Policy"]:
-        df_proc[col] = df_proc[col].astype("category")
+    # Faixas de horas semanais de IA
+    df_proc["Faixa_Horas_IA"] = ""
+    for rotulo, inicio, fim in FAIXAS_HORAS_IA:
+        filtro = (df_proc["Weekly_GenAI_Hours"] >= inicio) & (df_proc["Weekly_GenAI_Hours"] < fim)
+        df_proc.loc[filtro, "Faixa_Horas_IA"] = rotulo
 
     df_proc["Paid_Subscription"] = df_proc["Paid_Subscription"].astype(bool)
     df_proc["GPA_Variation"] = df_proc["Post_Semester_GPA"] - df_proc["Pre_Semester_GPA"]

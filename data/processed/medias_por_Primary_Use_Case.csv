@@ -1,0 +1,6 @@
+Primary_Use_Case,n,GPA_Variation,Post_Semester_GPA,Weekly_GenAI_Hours,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Perceived_AI_Dependency
+Copywriting/Drafting,12011,0.2,3.335,7.628,11.313,75.231,4.199,3.389
+Debugging/Troubleshooting,12295,0.249,3.396,9.401,11.124,78.069,4.334,3.645
+Direct_Answer_Generation,6340,0.133,3.294,8.456,11.217,73.719,4.286,3.491
+Ideation,10721,0.2,3.344,8.398,11.142,75.52,4.267,3.499
+Summarizing_Reading,8633,0.197,3.35,8.17,11.263,75.225,4.273,3.488

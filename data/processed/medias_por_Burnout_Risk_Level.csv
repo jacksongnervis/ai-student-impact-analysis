@@ -1,0 +1,4 @@
+Burnout_Risk_Level,n,GPA_Variation,Post_Semester_GPA,Weekly_GenAI_Hours,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Perceived_AI_Dependency
+Low,16369,0.2,3.405,4.644,11.966,76.402,3.928,2.82
+Medium,21144,0.21,3.348,7.349,11.29,76.243,4.17,3.365
+High,12487,0.196,3.278,15.215,10.082,74.253,4.889,4.642
