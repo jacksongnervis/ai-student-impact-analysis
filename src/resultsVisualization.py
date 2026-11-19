@@ -1,9 +1,6 @@
 """Gráficos dos resultados do Milestone 2 (hipóteses H1 e H2, classificadores e K-means)."""
 
-from __future__ import annotations
-
 import os
-from typing import Any, Dict
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -38,16 +35,14 @@ ROTULOS_CURTOS = {
 }
 
 
-def salvar(fig: plt.Figure, pasta: str, arquivo: str) -> None:
+def salvar(fig, pasta, arquivo):
     """Ajusta margens, salva a figura a 300 DPI e libera a memória."""
     fig.tight_layout()
     fig.savefig(os.path.join(pasta, arquivo), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
-def dispersao_com_reta(
-    ax: plt.Axes, df: pd.DataFrame, regressoes: pd.DataFrame, x: str, y: str, cor: str, bolhas: bool = False
-) -> None:
+def dispersaoComReta(ax, df, regressoes, x, y, cor, bolhas=False):
     """Dispersão de x por y com a reta y = b0 + b1*x; com bolhas=True o tamanho do ponto é a quantidade de alunos."""
     reg = regressoes.loc[(regressoes["X"] == x) & (regressoes["Y"] == y)].iloc[0]
     if bolhas:
@@ -65,9 +60,9 @@ def dispersao_com_reta(
     ax.grid(True, alpha=0.3)
 
 
-def boxplot_por_grupo(ax: plt.Axes, df: pd.DataFrame, col_grupo: str, ordem: list, y: str, cor: str) -> None:
-    """Boxplot de y para cada categoria de col_grupo, com a média marcada por um losango."""
-    dados = [df.loc[df[col_grupo] == g, y] for g in ordem]
+def boxplotPorGrupo(ax, df, colGrupo, ordem, y, cor):
+    """Boxplot de y para cada categoria de colGrupo, com a média marcada por um losango."""
+    dados = [df.loc[df[colGrupo] == g, y] for g in ordem]
     ax.boxplot(dados, patch_artist=True, boxprops=dict(facecolor=cor, alpha=0.6),
                medianprops=dict(color="black"), flierprops=dict(markersize=2, alpha=0.3))
     ax.plot(range(1, len(ordem) + 1), [d.mean() for d in dados], marker="D", color="red",
@@ -79,7 +74,7 @@ def boxplot_por_grupo(ax: plt.Axes, df: pd.DataFrame, col_grupo: str, ordem: lis
     ax.grid(True, alpha=0.3)
 
 
-def barras_agrupadas(ax: plt.Axes, tabela: pd.DataFrame, cores: list, rotulo_y: str) -> None:
+def barrasAgrupadas(ax, tabela, cores, rotuloY):
     """Barras lado a lado: cada linha da tabela é um grupo no eixo X e cada coluna uma barra."""
     largura = 0.8 / len(tabela.columns)
     posicoes = np.array(range(len(tabela.index)))
@@ -90,24 +85,24 @@ def barras_agrupadas(ax: plt.Axes, tabela: pd.DataFrame, cores: list, rotulo_y: 
             ax.text(barra.get_x() + barra.get_width() / 2, valor, f"{valor:.1f}", ha="center", va="bottom", fontsize=7)
     ax.set_xticks(posicoes + largura * (len(tabela.columns) - 1) / 2)
     ax.set_xticklabels([str(i) for i in tabela.index])
-    ax.set_ylabel(rotulo_y)
+    ax.set_ylabel(rotuloY)
     ax.grid(True, axis="y", alpha=0.3)
 
 
-def graficos_h1(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None:
+def graficosH1(df, bivariada, pasta):
     """H1: horas de IA e variação do GPA."""
     regressoes = bivariada["regressoes"]
 
     # 1. Dispersão horas x variação do GPA
     fig, ax = plt.subplots(figsize=(9, 6))
-    dispersao_com_reta(ax, df, regressoes, "Weekly_GenAI_Hours", "GPA_Variation", "#1f77b4")
+    dispersaoComReta(ax, df, regressoes, "Weekly_GenAI_Hours", "GPA_Variation", "#1f77b4")
     ax.axhline(0, color="gray", linestyle=":", linewidth=1)
     ax.set_title("H1 - Horas semanais de IA x Variação do GPA", fontweight="bold")
     salvar(fig, pasta, "m2_h1_dispersao_horas_variacao_gpa.png")
 
     # 2. Boxplot da variação do GPA por faixa de horas
     fig, ax = plt.subplots(figsize=(9, 6))
-    boxplot_por_grupo(ax, df, "Faixa_Horas_IA", ORDEM_FAIXAS, "GPA_Variation", "#17becf")
+    boxplotPorGrupo(ax, df, "Faixa_Horas_IA", ORDEM_FAIXAS, "GPA_Variation", "#17becf")
     ax.axhline(0, color="gray", linestyle=":", linewidth=1)
     ax.set_xlabel("Faixa de horas semanais de IA")
     ax.set_title("H1 - Variação do GPA por faixa de horas de IA", fontweight="bold")
@@ -129,11 +124,11 @@ def graficos_h1(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None
     # 4. Variação do GPA por finalidade de uso e por habilidade em prompts
     fig, axes = plt.subplots(1, 2, figsize=(14, 6), sharey=True)
     usos = sorted(df["Primary_Use_Case"].unique())
-    boxplot_por_grupo(axes[0], df, "Primary_Use_Case", usos, "GPA_Variation", "#bcbd22")
+    boxplotPorGrupo(axes[0], df, "Primary_Use_Case", usos, "GPA_Variation", "#bcbd22")
     axes[0].set_xticklabels([u.replace("_", " ").replace("/", "/\n") for u in usos], rotation=0, fontsize=8)
     axes[0].set_xlabel("Finalidade principal de uso da IA")
     axes[0].set_title("Por finalidade de uso", fontweight="bold")
-    boxplot_por_grupo(axes[1], df, "Prompt_Engineering_Skill", ORDEM_CATEGORIAS["Prompt_Engineering_Skill"],
+    boxplotPorGrupo(axes[1], df, "Prompt_Engineering_Skill", ORDEM_CATEGORIAS["Prompt_Engineering_Skill"],
                       "GPA_Variation", "#e377c2")
     axes[1].set_xlabel("Habilidade em engenharia de prompt")
     axes[1].set_title("Por habilidade em prompts", fontweight="bold")
@@ -141,7 +136,7 @@ def graficos_h1(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None
     salvar(fig, pasta, "m2_h1_boxplot_variacao_por_uso_e_prompt.png")
 
 
-def graficos_h2(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None:
+def graficosH2(df, bivariada, pasta):
     """H2: horas/dependência de IA x estudo tradicional, retenção, ansiedade e burnout."""
     regressoes = bivariada["regressoes"]
 
@@ -172,7 +167,7 @@ def graficos_h2(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None
     ]
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     for ax, (x, y, cor, bolhas) in zip(axes.flatten(), pares):
-        dispersao_com_reta(ax, df, regressoes, x, y, cor, bolhas)
+        dispersaoComReta(ax, df, regressoes, x, y, cor, bolhas)
         ax.set_title(f"{NOMES[x]} x {NOMES[y]}", fontsize=10, fontweight="bold")
     axes[1, 1].set_title(f"{NOMES['Perceived_AI_Dependency']} x {NOMES['Anxiety_Level_During_Exams']}\n"
                          "(tamanho da bolha = quantidade de alunos)", fontsize=10, fontweight="bold")
@@ -204,7 +199,7 @@ def graficos_h2(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None
     fig, axes = plt.subplots(1, 3, figsize=(16, 6))
     for ax, (y, cor) in zip(axes, [("Weekly_GenAI_Hours", "#3498db"), ("Perceived_AI_Dependency", "#f39c12"),
                                    ("Anxiety_Level_During_Exams", "#e74c3c")]):
-        boxplot_por_grupo(ax, df, "Burnout_Risk_Level", niveis, y, cor)
+        boxplotPorGrupo(ax, df, "Burnout_Risk_Level", niveis, y, cor)
         ax.set_xlabel("Risco de burnout")
         ax.set_title(NOMES[y], fontsize=10, fontweight="bold")
     fig.suptitle("H2 - Uso de IA, dependência e ansiedade por nível de risco de burnout", fontweight="bold")
@@ -214,7 +209,7 @@ def graficos_h2(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None
     percentual = bivariada["contingencias"]["Faixa_Horas_IA"]["percentual"]
     c = bivariada["contingencias"]["Faixa_Horas_IA"]["Coef_Contingencia_C"]
     fig, ax = plt.subplots(figsize=(10, 6))
-    barras_agrupadas(ax, percentual, [CORES_BURNOUT[n] for n in percentual.columns], "% dos alunos da faixa")
+    barrasAgrupadas(ax, percentual, [CORES_BURNOUT[n] for n in percentual.columns], "% dos alunos da faixa")
     ax.set_xlabel("Faixa de horas semanais de IA")
     ax.legend(title="Risco de burnout")
     ax.set_title(f"H2 - Risco de burnout por faixa de horas de IA (coef. de contingência C = {c:.3f})", fontweight="bold")
@@ -234,13 +229,13 @@ def graficos_h2(df: pd.DataFrame, bivariada: Dict[str, Any], pasta: str) -> None
     salvar(fig, pasta, "m2_h2_associacao_burnout.png")
 
 
-def graficos_modelos(df: pd.DataFrame, modelos: Dict[str, Any], pasta: str) -> None:
+def graficosModelos(df, modelos, pasta):
     """Random Forest, KNN e K-means."""
     # 10. Overfitting do Random Forest
-    val_rf = modelos["random_forest"]["validacao"]
+    valRf = modelos["random_forest"]["validacao"]
     fig, ax = plt.subplots(figsize=(9, 6))
-    ax.plot(val_rf["max_depth"], val_rf["Acuracia_Ajuste"], marker="o", linewidth=2, label="Treino (ajuste)")
-    ax.plot(val_rf["max_depth"], val_rf["Acuracia_Validacao"], marker="s", linewidth=2, label="Validação")
+    ax.plot(valRf["max_depth"], valRf["Acuracia_Ajuste"], marker="o", linewidth=2, label="Treino (ajuste)")
+    ax.plot(valRf["max_depth"], valRf["Acuracia_Validacao"], marker="s", linewidth=2, label="Validação")
     ax.set_xlabel("Profundidade máxima das árvores (max_depth)")
     ax.set_ylabel("Acurácia")
     ax.set_title("Random Forest - Acurácia no treino x validação (overfitting)", fontweight="bold")
@@ -249,9 +244,9 @@ def graficos_modelos(df: pd.DataFrame, modelos: Dict[str, Any], pasta: str) -> N
     salvar(fig, pasta, "m2_rf_overfitting_profundidade.png")
 
     # 11. Escolha do K do KNN
-    val_knn = modelos["knn"]["validacao"]
+    valKnn = modelos["knn"]["validacao"]
     fig, ax = plt.subplots(figsize=(9, 6))
-    ax.plot(val_knn["K"], val_knn["Acuracia_Validacao"], marker="o", linewidth=2, color="#8c564b")
+    ax.plot(valKnn["K"], valKnn["Acuracia_Validacao"], marker="o", linewidth=2, color="#8c564b")
     ax.set_xlabel("Número de vizinhos (K)")
     ax.set_ylabel("Acurácia na validação")
     ax.set_title("KNN - Acurácia na validação para cada K", fontweight="bold")
@@ -261,7 +256,7 @@ def graficos_modelos(df: pd.DataFrame, modelos: Dict[str, Any], pasta: str) -> N
     # 12. Comparação dos classificadores no teste
     metricas = modelos["metricas"].set_index("Modelo")[["Acuracia", "F1_Macro", "F1_High"]] * 100
     fig, ax = plt.subplots(figsize=(11, 6))
-    barras_agrupadas(ax, metricas, ["#1f77b4", "#ff7f0e", "#f44336"], "Valor da métrica (%)")
+    barrasAgrupadas(ax, metricas, ["#1f77b4", "#ff7f0e", "#f44336"], "Valor da métrica (%)")
     ax.legend(["Acurácia", "F1 macro", "F1 da classe High"], loc="upper left")
     ax.set_title("Classificação do risco de burnout - métricas no conjunto de teste", fontweight="bold")
     salvar(fig, pasta, "m2_modelos_comparacao.png")
@@ -282,11 +277,11 @@ def graficos_modelos(df: pd.DataFrame, modelos: Dict[str, Any], pasta: str) -> N
     # 14. Método do cotovelo
     kmeans = modelos["kmeans"]
     inercias = kmeans["inercias"]
-    k_escolhido = len(kmeans["perfil"])
+    kEscolhido = len(kmeans["perfil"])
     fig, ax = plt.subplots(figsize=(9, 6))
     ax.plot(inercias["k"], inercias["Inercia"], marker="o", linewidth=2)
-    ax.plot(k_escolhido, inercias.loc[inercias["k"] == k_escolhido, "Inercia"], marker="*", markersize=20,
-            color="red", label=f"k escolhido = {k_escolhido}")
+    ax.plot(kEscolhido, inercias.loc[inercias["k"] == kEscolhido, "Inercia"], marker="*", markersize=20,
+            color="red", label=f"k escolhido = {kEscolhido}")
     ax.set_xlabel("Número de grupos (k)")
     ax.set_ylabel("Inércia")
     ax.set_title("K-means - Método do cotovelo", fontweight="bold")
@@ -310,10 +305,10 @@ def graficos_modelos(df: pd.DataFrame, modelos: Dict[str, Any], pasta: str) -> N
     axes[0].set_title("Horas de IA x estudo tradicional (estrela = média)", fontsize=10, fontweight="bold")
     axes[0].legend(loc="upper right", fontsize=8)
     axes[0].grid(True, alpha=0.3)
-    df_grupos = df.copy()
-    df_grupos["Grupo"] = grupos
+    dfGrupos = df.copy()
+    dfGrupos["Grupo"] = grupos
     for ax, (y, cor) in zip(axes[1:], [("Anxiety_Level_During_Exams", "#e74c3c"), ("Perceived_AI_Dependency", "#f39c12")]):
-        boxplot_por_grupo(ax, df_grupos, "Grupo", list(perfil.index), y, cor)
+        boxplotPorGrupo(ax, dfGrupos, "Grupo", list(perfil.index), y, cor)
         ax.set_xticklabels([f"Grupo {g}" for g in perfil.index], rotation=0)
         ax.set_xlabel("Grupo formado pelo K-means")
         ax.set_title(NOMES[y], fontsize=10, fontweight="bold")
@@ -325,19 +320,17 @@ def graficos_modelos(df: pd.DataFrame, modelos: Dict[str, Any], pasta: str) -> N
     pct.columns = ORDEM_CATEGORIAS["Burnout_Risk_Level"]
     pct.index = [f"Grupo {g}" for g in pct.index]
     fig, ax = plt.subplots(figsize=(10, 6))
-    barras_agrupadas(ax, pct, [CORES_BURNOUT[n] for n in pct.columns], "% dos alunos do grupo")
+    barrasAgrupadas(ax, pct, [CORES_BURNOUT[n] for n in pct.columns], "% dos alunos do grupo")
     ax.set_xlabel("Grupo formado pelo K-means")
     ax.legend(title="Risco de burnout")
     ax.set_title("K-means - Risco de burnout em cada grupo", fontweight="bold")
     salvar(fig, pasta, "m2_kmeans_burnout_por_grupo.png")
 
 
-def gerar_graficos_resultados(
-    df: pd.DataFrame, bivariada: Dict[str, Any], modelos: Dict[str, Any], pasta_figuras: str = "figures"
-) -> None:
+def gerarGraficosResultados(df, bivariada, modelos, pastaFiguras="figures"):
     """Gera os 17 gráficos do Milestone 2 a 300 DPI."""
-    os.makedirs(pasta_figuras, exist_ok=True)
-    graficos_h1(df, bivariada, pasta_figuras)
-    graficos_h2(df, bivariada, pasta_figuras)
-    graficos_modelos(df, modelos, pasta_figuras)
-    print(f"Gráficos do Milestone 2 gerados em '{pasta_figuras}/'.")
+    os.makedirs(pastaFiguras, exist_ok=True)
+    graficosH1(df, bivariada, pastaFiguras)
+    graficosH2(df, bivariada, pastaFiguras)
+    graficosModelos(df, modelos, pastaFiguras)
+    print(f"Gráficos do Milestone 2 gerados em '{pastaFiguras}/'.")

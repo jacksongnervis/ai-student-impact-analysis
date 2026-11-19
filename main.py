@@ -16,9 +16,9 @@ from src.descriptive_metrics import (
     calcular_frequencias_qualitativas,
 )
 from src.visualization import gerar_graficos_distribuicao
-from src.bivariate_analysis import executar_analise_bivariada
-from src.models import executar_modelos
-from src.results_visualization import gerar_graficos_resultados
+from src.bivariateAnalysis import executarAnaliseBivariada
+from src.models import executarModelos
+from src.resultsVisualization import gerarGraficosResultados
 
 
 def log(etapa: str, mensagem: str) -> None:
@@ -47,15 +47,15 @@ def main() -> None:
     log("ETAPA 4/7", "Sucesso: 11 figuras de distribuição geradas em 'figures/'.")
 
     log("ETAPA 5/7", "Análise de duas variáveis (correlação, regressão, médias e qui-quadrado)...")
-    bivariada = executar_analise_bivariada(df)
+    bivariada = executarAnaliseBivariada(df)
     log("ETAPA 5/7", "Sucesso: tabelas exportadas em 'data/processed/'.")
 
     log("ETAPA 6/7", "Treinando e avaliando modelos (Random Forest, KNN e K-means)...")
-    modelos = executar_modelos(df)
+    modelos = executarModelos(df)
     log("ETAPA 6/7", "Sucesso: métricas dos modelos exportadas em 'data/processed/'.")
 
     log("ETAPA 7/7", "Gerando figuras dos resultados a 300 DPI...")
-    gerar_graficos_resultados(df, bivariada, modelos)
+    gerarGraficosResultados(df, bivariada, modelos)
     log("ETAPA 7/7", "Sucesso: 17 figuras de resultados geradas em 'figures/'.")
 
     print("\nPipeline concluída com sucesso.")

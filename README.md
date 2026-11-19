@@ -18,11 +18,10 @@ ai-student-impact-analysis/
 │   ├── audit_cleaning.py           # Auditoria, codificação ordinal, faixas de horas de IA e GPA_Variation
 │   ├── descriptive_metrics.py      # Métricas descritivas e tabelas de frequência (Milestone 1)
 │   ├── visualization.py            # Pizzas, histogramas e curvas KDE (Milestone 1)
-│   ├── bivariate_analysis.py       # Correlação, regressão linear simples, médias por grupo e qui-quadrado (Milestone 2)
+│   ├── bivariateAnalysis.py        # Correlação, regressão linear simples, médias por grupo e qui-quadrado (Milestone 2)
 │   ├── models.py                   # Random Forest, KNN e K-means (Milestone 2)
-│   └── results_visualization.py    # Gráficos dos resultados (Milestone 2)
+│   └── resultsVisualization.py     # Gráficos dos resultados (Milestone 2)
 ├── main.py                         # Executa a pipeline completa (7 etapas)
-├── analise_completa.ipynb          # Notebook que executa a pipeline e exibe tabelas e gráficos
 ├── requirements.txt                # Dependências do projeto
 ├── .gitignore
 └── README.md
@@ -30,14 +29,7 @@ ai-student-impact-analysis/
 
 ## 2. Como executar
 
-### 2.1 Google Colab
-
-1. Abra o `analise_completa.ipynb` no Colab (`Arquivo > Fazer upload de notebook` ou `Arquivo > Abrir notebook > GitHub`).
-2. Clique em `Ambiente de execução > Executar tudo`.
-
-A primeira célula baixa o repositório e instala as dependências. Os gráficos aparecem abaixo de cada célula.
-
-### 2.2 VS Code (Linux)
+### 2.1 VS Code (Linux)
 
 Pré-requisito no Ubuntu/Debian (uma única vez):
 ```bash
@@ -51,11 +43,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Opção A – script:** `python main.py` gera todas as tabelas em `data/processed/` e todos os gráficos em `figures/` (abra os PNGs pelo explorador do VS Code).
+Depois execute `python main.py`, que gera todas as tabelas em `data/processed/` e todos os gráficos em `figures/` (abra os PNGs pelo explorador do VS Code).
 
-**Opção B – notebook:** abra o `analise_completa.ipynb`, selecione o interpretador `venv` no canto superior direito e clique em *Run All*. Na primeira vez o VS Code pedirá para instalar a extensão *Jupyter* e o pacote `ipykernel`; aceite.
-
-### 2.3 Windows (PowerShell)
+### 2.2 Windows (PowerShell)
 
 ```powershell
 python -m venv venv
