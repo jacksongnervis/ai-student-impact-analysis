@@ -27,10 +27,20 @@ def gerar_graficos_distribuicao(
     for col, arq, titulo, cores in graficos_pizza:
         contagem = df[col].value_counts()
         ordem = ORDEM_CATEGORIAS.get(col, sorted(contagem.index))
-        valores = [contagem[cat] for cat in ordem]
+
+        valores = []
+        for cat in ordem:
+            valores.append(contagem[cat])
+
         fig, ax = plt.subplots(figsize=(7, 7))
-        ax.pie(valores, labels=ordem, autopct="%1.1f%%", startangle=140, colors=cores,
-               wedgeprops={"edgecolor": "white", "linewidth": 1.5})
+        ax.pie(
+            valores,
+            labels=ordem,
+            autopct="%1.1f%%",
+            startangle=140,
+            colors=cores,
+            wedgeprops={"edgecolor": "white", "linewidth": 1.5},
+        )
         ax.set_title(titulo, fontsize=12, fontweight="bold")
         plt.tight_layout()
         plt.savefig(os.path.join(pasta_figuras, arq), dpi=300, bbox_inches="tight")
@@ -61,6 +71,7 @@ def gerar_graficos_distribuicao(
             bins = np.linspace(minimo - 0.5, maximo + 0.5, int(maximo - minimo) + 2)
         else:
             bins = 30
+
         axes[0].hist(serie, bins=bins, color=cor, edgecolor="black", alpha=0.7)
         axes[0].axvline(media, color="red", linestyle="--", linewidth=2, label=f"Média: {media:.2f}")
         axes[0].axvline(mediana, color="darkorange", linestyle="-", linewidth=2, label=f"Mediana: {mediana:.2f}")

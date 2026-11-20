@@ -65,6 +65,7 @@ def calcular_frequencias_qualitativas(
         "Burnout_Risk_Level",
         "Faixa_Horas_IA",
     ]
+
     ordens = {**ORDEM_CATEGORIAS, "Faixa_Horas_IA": ORDEM_FAIXAS}
 
     registros = []

@@ -20,7 +20,10 @@ FAIXAS_HORAS_IA = [
     ("10-20 h", 10, 20),
     ("20+ h", 20, 41),
 ]
-ORDEM_FAIXAS = [rotulo for rotulo, _, _ in FAIXAS_HORAS_IA]
+
+ORDEM_FAIXAS = []
+for rotulo, inicio, fim in FAIXAS_HORAS_IA:
+    ORDEM_FAIXAS.append(rotulo)
 
 
 def auditar_integridade(df: pd.DataFrame) -> Dict[str, Any]:
@@ -65,13 +68,15 @@ def preparar_dados(df: pd.DataFrame) -> pd.DataFrame:
     # Codificação ordinal: cada categoria recebe sua posição na ordem lógica (0, 1, 2, ...)
     for col, ordem in ORDEM_CATEGORIAS.items():
         df_proc[col + "_Ord"] = 0
+
         for posicao, categoria in enumerate(ordem):
             df_proc.loc[df_proc[col] == categoria, col + "_Ord"] = posicao
 
     # Faixas de horas semanais de IA
     df_proc["Faixa_Horas_IA"] = ""
     for rotulo, inicio, fim in FAIXAS_HORAS_IA:
-        filtro = (df_proc["Weekly_GenAI_Hours"] >= inicio) & (df_proc["Weekly_GenAI_Hours"] < fim)
+        horas = df_proc["Weekly_GenAI_Hours"]
+        filtro = (horas >= inicio) & (horas < fim)
         df_proc.loc[filtro, "Faixa_Horas_IA"] = rotulo
 
     df_proc["Paid_Subscription"] = df_proc["Paid_Subscription"].astype(bool)

@@ -27,34 +27,38 @@ ai-student-impact-analysis/
 └── README.md
 ```
 
-## 2. Como executar
+## 2. Instalação e Configuração
 
-### 2.1 VS Code (Linux)
+### 2.1 Criar e ativar o ambiente virtual 
 
-Pré-requisito no Ubuntu/Debian (uma única vez):
-```bash
-sudo apt install python3-venv python3-pip
-```
-
-Na pasta do projeto:
+No Linux/macOS:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
 ```
 
-Depois execute `python main.py`, que gera todas as tabelas em `data/processed/` e todos os gráficos em `figures/` (abra os PNGs pelo explorador do VS Code).
-
-### 2.2 Windows (PowerShell)
-
+No Windows (PowerShell):
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
+```
+
+### 2.2 Instalar dependências
+
+A partir do diretório raiz do projeto:
+```bash
 pip install -r requirements.txt
+```
+
+## 3. Execução da Pipeline
+
+A execução de toda a esteira de ponta a ponta é orquestrada pelo script `main.py`:
+
+```bash
 python main.py
 ```
 
-## 3. Etapas da pipeline (`main.py`)
+## 4. Etapas da pipeline (`main.py`)
 
 | Etapa | Descrição |
 |---|---|
@@ -68,7 +72,7 @@ python main.py
 
 Os resultados são reprodutíveis: todos os algoritmos usam semente fixa (`random_state=42`).
 
-## 4. Resultados gerados
+## 5. Resultados gerados
 
 ### Tabelas (`data/processed/`)
 
