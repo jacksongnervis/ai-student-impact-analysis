@@ -1,0 +1,6 @@
+Major_Category,n,GPA_Variation,Post_Semester_GPA,Weekly_GenAI_Hours,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Perceived_AI_Dependency
+Arts,5933,0.197,3.344,7.272,11.352,75.661,4.174,3.363
+Business,12538,0.194,3.336,8.276,11.205,75.256,4.251,3.489
+Humanities,9994,0.198,3.346,6.77,11.337,75.254,4.142,3.244
+Medical,6476,0.201,3.353,7.547,11.365,75.485,4.228,3.4
+STEM,15059,0.217,3.363,10.489,11.005,76.8,4.429,3.794

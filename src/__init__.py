@@ -2,10 +2,12 @@
 
 Módulos disponíveis:
 - data_loader: Download e ingestão de dados brutos.
-- audit_cleaning: Auditoria de integridade e limpeza/preparação de dados.
+- audit_cleaning: Auditoria de integridade, codificação de categorias e atributos derivados.
 - descriptive_metrics: Cálculo de estatísticas descritivas e frequências.
-- visualization: Geração de gráficos e representações visuais.
+- visualization: Gráficos de distribuição (Milestone 1).
+- bivariateAnalysis: Correlação, regressão linear simples, médias por grupo e qui-quadrado.
+- models: Random Forest, KNN e K-means.
+- resultsVisualization: Gráficos dos resultados (Milestone 2).
 """
 
-__version__ = "1.0.0"
-
+__version__ = "2.0.0"

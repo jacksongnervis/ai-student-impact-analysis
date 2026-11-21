@@ -1,0 +1,6 @@
+Year_of_Study,n,GPA_Variation,Post_Semester_GPA,Weekly_GenAI_Hours,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Perceived_AI_Dependency
+Freshman,11031,0.132,3.278,8.447,11.197,74.658,4.28,3.495
+Sophomore,9860,0.177,3.327,8.446,11.187,74.812,4.298,3.537
+Junior,11045,0.226,3.372,8.376,11.246,74.77,4.263,3.504
+Senior,10634,0.243,3.39,8.459,11.21,77.768,4.272,3.492
+Graduate,7430,0.252,3.392,8.406,11.202,77.508,4.231,3.501

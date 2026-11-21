@@ -1,4 +1,4 @@
-"""Orquestrador da pipeline de Ciência de Dados (Milestone 1)."""
+"""Orquestrador da pipeline de Ciência de Dados (Milestones 1 e 2)."""
 
 from __future__ import annotations
 
@@ -16,6 +16,9 @@ from src.descriptive_metrics import (
     calcular_frequencias_qualitativas,
 )
 from src.visualization import gerar_graficos_distribuicao
+from src.bivariateAnalysis import executarAnaliseBivariada
+from src.models import executarModelos
+from src.resultsVisualization import gerarGraficosResultados
 
 
 def log(etapa: str, mensagem: str) -> None:
@@ -25,23 +28,35 @@ def log(etapa: str, mensagem: str) -> None:
 
 def main() -> None:
     """Executa a pipeline de análise de dados de ponta a ponta."""
-    log("ETAPA 1/4", "Carregando base de dados...")
+    log("ETAPA 1/7", "Carregando base de dados...")
     df_raw = carregar_dados()
-    log("ETAPA 1/4", f"Sucesso: {len(df_raw)} registros carregados.")
+    log("ETAPA 1/7", f"Sucesso: {len(df_raw)} registros carregados.")
 
-    log("ETAPA 2/4", "Auditando e preparando dados...")
+    log("ETAPA 2/7", "Auditando e preparando dados...")
     auditar_integridade(df_raw)
     df = preparar_dados(df_raw)
-    log("ETAPA 2/4", "Sucesso: auditoria concluída e tipos preparados.")
+    log("ETAPA 2/7", "Sucesso: auditoria concluída e atributos derivados criados.")
 
-    log("ETAPA 3/4", "Calculando métricas descritivas e frequências...")
+    log("ETAPA 3/7", "Calculando métricas descritivas e frequências...")
     calcular_metricas_quantitativas(df)
     calcular_frequencias_qualitativas(df)
-    log("ETAPA 3/4", "Sucesso: relatórios CSV exportados.")
+    log("ETAPA 3/7", "Sucesso: relatórios CSV exportados.")
 
-    log("ETAPA 4/4", "Gerando figuras estatísticas a 300 DPI...")
+    log("ETAPA 4/7", "Gerando figuras de distribuição a 300 DPI...")
     gerar_graficos_distribuicao(df)
-    log("ETAPA 4/4", "Sucesso: 9 figuras geradas em 'figures/'.")
+    log("ETAPA 4/7", "Sucesso: 11 figuras de distribuição geradas em 'figures/'.")
+
+    log("ETAPA 5/7", "Análise de duas variáveis (correlação, regressão, médias e qui-quadrado)...")
+    bivariada = executarAnaliseBivariada(df)
+    log("ETAPA 5/7", "Sucesso: tabelas exportadas em 'data/processed/'.")
+
+    log("ETAPA 6/7", "Treinando e avaliando modelos (Random Forest, KNN e K-means)...")
+    modelos = executarModelos(df)
+    log("ETAPA 6/7", "Sucesso: métricas dos modelos exportadas em 'data/processed/'.")
+
+    log("ETAPA 7/7", "Gerando figuras dos resultados a 300 DPI...")
+    gerarGraficosResultados(df, bivariada, modelos)
+    log("ETAPA 7/7", "Sucesso: 17 figuras de resultados geradas em 'figures/'.")
 
     print("\nPipeline concluída com sucesso.")
 

@@ -17,11 +17,16 @@ Primary_Use_Case,Summarizing_Reading,8633,17.27
 Prompt_Engineering_Skill,Beginner,18495,36.99
 Prompt_Engineering_Skill,Intermediate,17696,35.39
 Prompt_Engineering_Skill,Advanced,13809,27.62
-Paid_Subscription,True,21154,42.31
 Paid_Subscription,False,28846,57.69
+Paid_Subscription,True,21154,42.31
 Institutional_Policy,Actively_Encouraged,14988,29.98
 Institutional_Policy,Allowed_With_Citation,25224,50.45
 Institutional_Policy,Strict_Ban,9788,19.58
 Burnout_Risk_Level,Low,16369,32.74
 Burnout_Risk_Level,Medium,21144,42.29
 Burnout_Risk_Level,High,12487,24.97
+Faixa_Horas_IA,0-2 h,10683,21.37
+Faixa_Horas_IA,2-5 h,11884,23.77
+Faixa_Horas_IA,5-10 h,12182,24.36
+Faixa_Horas_IA,10-20 h,10242,20.48
+Faixa_Horas_IA,20+ h,5009,10.02

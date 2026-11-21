@@ -1,0 +1,4 @@
+Prompt_Engineering_Skill,n,GPA_Variation,Post_Semester_GPA,Weekly_GenAI_Hours,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Perceived_AI_Dependency
+Beginner,18495,0.185,3.334,8.286,11.204,71.101,4.263,3.493
+Intermediate,17696,0.187,3.334,8.367,11.237,75.825,4.273,3.502
+Advanced,13809,0.248,3.389,8.694,11.181,82.054,4.278,3.526

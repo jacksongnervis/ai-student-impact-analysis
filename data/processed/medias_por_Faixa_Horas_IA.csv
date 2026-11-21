@@ -1,0 +1,6 @@
+Faixa_Horas_IA,n,GPA_Variation,Post_Semester_GPA,Weekly_GenAI_Hours,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Perceived_AI_Dependency
+0-2 h,10683,0.188,3.334,0.951,11.892,75.613,3.809,2.45
+2-5 h,11884,0.201,3.349,3.412,11.722,76.296,3.882,2.781
+5-10 h,12182,0.227,3.372,7.255,11.379,77.089,4.067,3.295
+10-20 h,10242,0.216,3.364,13.966,10.633,76.59,4.786,4.297
+20+ h,5009,0.156,3.299,27.801,9.301,70.252,5.62,6.366

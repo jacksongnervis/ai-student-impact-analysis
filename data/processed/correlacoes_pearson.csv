@@ -1,0 +1,11 @@
+,Weekly_GenAI_Hours,Perceived_AI_Dependency,Traditional_Study_Hours,Skill_Retention_Score,Anxiety_Level_During_Exams,Burnout_Risk_Level_Ord,Pre_Semester_GPA,Post_Semester_GPA,GPA_Variation,Tool_Diversity
+Weekly_GenAI_Hours,1.0,0.665,-0.157,-0.118,0.269,0.469,-0.001,-0.019,-0.046,0.008
+Perceived_AI_Dependency,0.665,1.0,-0.103,-0.084,0.308,0.369,0.001,-0.014,-0.039,0.006
+Traditional_Study_Hours,-0.157,-0.103,1.0,0.148,-0.041,-0.136,-0.005,0.138,0.376,0.004
+Skill_Retention_Score,-0.118,-0.084,0.148,1.0,-0.042,-0.058,0.099,0.17,0.196,0.197
+Anxiety_Level_During_Exams,0.269,0.308,-0.041,-0.042,1.0,0.165,-0.001,-0.016,-0.04,0.003
+Burnout_Risk_Level_Ord,0.469,0.369,-0.136,-0.058,0.165,1.0,-0.096,-0.096,-0.007,0.006
+Pre_Semester_GPA,-0.001,0.001,-0.005,0.099,-0.001,-0.096,1.0,0.927,-0.104,-0.006
+Post_Semester_GPA,-0.019,-0.014,0.138,0.17,-0.016,-0.096,0.927,1.0,0.277,0.025
+GPA_Variation,-0.046,-0.039,0.376,0.196,-0.04,-0.007,-0.104,0.277,1.0,0.081
+Tool_Diversity,0.008,0.006,0.004,0.197,0.003,0.006,-0.006,0.025,0.081,1.0

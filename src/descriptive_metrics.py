@@ -5,6 +5,8 @@ from __future__ import annotations
 import os
 import pandas as pd
 
+from src.audit_cleaning import ORDEM_CATEGORIAS, ORDEM_FAIXAS
+
 
 def calcular_metricas_quantitativas(
     df: pd.DataFrame, pasta_saida: str = "data/processed"
@@ -61,13 +63,17 @@ def calcular_frequencias_qualitativas(
         "Paid_Subscription",
         "Institutional_Policy",
         "Burnout_Risk_Level",
+        "Faixa_Horas_IA",
     ]
+
+    ordens = {**ORDEM_CATEGORIAS, "Faixa_Horas_IA": ORDEM_FAIXAS}
 
     registros = []
     for col in cols:
-        cont = df[col].value_counts(sort=False)
-        pct = (df[col].value_counts(normalize=True, sort=False) * 100).round(2)
-        for cat in cont.index:
+        cont = df[col].value_counts()
+        pct = (df[col].value_counts(normalize=True) * 100).round(2)
+        ordem = ordens.get(col, sorted(cont.index))
+        for cat in ordem:
             registros.append(
                 {
                     "Variavel": col,

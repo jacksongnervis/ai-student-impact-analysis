@@ -1,0 +1,4 @@
+Modelo,Acuracia,Precisao_Macro,Recall_Macro,F1_Macro,F1_Low,F1_Medium,F1_High
+Baseline (sempre 'Medium'),0.4229,0.141,0.3333,0.1981,0.0,0.5944,0.0
+Random Forest (max_depth=10),0.5291,0.5625,0.5142,0.5276,0.4911,0.5451,0.5465
+KNN (K=151),0.5178,0.5694,0.4917,0.5058,0.4792,0.553,0.4851
